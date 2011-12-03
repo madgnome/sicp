@@ -10,6 +10,14 @@
 (define (end-segment s)
   (cdr s))
 
+(define (segment-length s)
+  (let ((p1 (start-segment s))
+        (p2 (end-segment s)))
+    (sqrt (+ (square (- (x-point p2)
+                        (x-point p1)))
+             (square (- (y-point p1)
+                        (y-point p2)))))))
+
 ;; Point
 (define (make-point x y)
   (cons x y))
@@ -55,5 +63,20 @@
      (* 2 (height-rect rect))))
 
 (define (area-rect rect)
-  (* (width-rect rect)
+  (* (  rect)
      (height-rect rect)))
+
+;; Rectangle defined by 3 points
+;;
+;; p1 +
+;;    |
+;;    |
+;; p2 +------+ p3
+(define (make-rectangle p1 p2 p3)
+  (cons (make-segment p1 p2) (make-segment p2 p3)))
+
+(define (width-rect r)
+  (segment-length (cdr r)))
+
+(define (height-rect r)
+  (segment-length (car r)))
